@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <include layout="@layout/container_viewpager_layout"/>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relative1"
+    android:background="@color/white">
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeSetting1">
+        <include layout="@layout/snipper_setting_profile_activity"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeSetting2"
+
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:layout_below="@+id/relativeSetting1">
+        <include layout="@layout/container_setting_activity"/>
+    </RelativeLayout>
+    <include layout="@layout/buttom_layout"/>
+</RelativeLayout>
+</merge>

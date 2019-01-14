@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Home.HomeActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/topId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/home_top_layout" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/contId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/topId">
+
+            <include layout="@layout/container_viewpager_layout" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/buttom_layout"/>
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

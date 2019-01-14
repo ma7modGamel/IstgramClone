@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/home_id"
+    android:title="@string/home"
+    android:icon="@drawable/ic_home">
+
+</item>
+    <item android:id="@+id/search_id"
+        android:title="@string/home"
+        android:icon="@drawable/ic_search">
+
+    </item>
+    <item android:id="@+id/add_id"
+        android:title="@string/home"
+        android:icon="@drawable/ic_add">
+
+    </item>
+    <item android:id="@+id/favorit_id"
+        android:title="@string/home"
+        android:icon="@drawable/ic_favorit">
+
+    </item>
+    <item
+        android:id="@+id/user_id"
+        android:icon="@drawable/ic_user"
+        android:title="@string/home"
+        app:showAsAction="always">
+
+    </item>
+
+</menu>
