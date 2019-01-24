@@ -1,7 +1,6 @@
 package com.example.firstappagain.LogIn;
-
+import  com.example.firstappagain.Uttils.firebaseMethods;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,22 +11,29 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.firstappagain.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
+    FirebaseDatabase database;
+    DatabaseReference myRef ;
 
     EditText editTextEnteredUserName, editTextEnteredEMail,editTextReEnteredPassWord;
     ProgressBar progressBarRegin;
     TextView textViewPleaseWait;
     LinearLayout linearLayoutContent;
     Button btnRegister;
+    firebaseMethods firebaseMethods;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +46,20 @@ public class RegisterActivity extends AppCompatActivity {
         progressBarRegin = findViewById(R.id.progressparRegId);
 
         btnRegister=findViewById(R.id.btnRegister);
+        firebaseMethods=new firebaseMethods(RegisterActivity.this);
+
+
+        database= FirebaseDatabase.getInstance();
+
+        myRef = database.getReference();
+
         setupWidgetsComponent();
         setupFireBase();
         init();
     }
 
     private void init() {
+        Log.e(TAG, "init: " );
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,29 +73,12 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "error entered", Toast.LENGTH_SHORT).show();
                     progressBarRegin.setVisibility(View.GONE);
                     textViewPleaseWait.setVisibility(View.GONE);
+                    Log.e(TAG, "onClick: true" );
                     linearLayoutContent.setVisibility(View.VISIBLE);
                 }else {
-                    mAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete( Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Log.d(TAG, "createUserWithEmail:success");
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        Toast.makeText(RegisterActivity.this, "Authentication succes."+user,
-                                                Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onClick: false"  );
 
-                                    }
-
-                                    // ...
-                                }
-                            });
+                    firebaseMethods.RegisterNewUser(username,password,email);
                 }
             }
         });
@@ -92,15 +89,47 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     FirebaseAuth.AuthStateListener listener;
     String email,password,username;
-    private void setupFireBase() {
 
+    String append;
+    private void setupFireBase() {
+        Log.e(TAG, "setupFireBase: " );
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+
 
         listener=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged( FirebaseAuth firebaseAuth) {
 
+                if (currentUser != null) {
+
+                    Log.e(TAG, "onAuthStateChanged: signIn "+firebaseAuth.getUid());
+
+
+                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange( DataSnapshot dataSnapshot) {
+
+                            Log.e(TAG, "onDataChange: " );
+                            if(firebaseMethods.checkUserNameExist(username,dataSnapshot)){
+
+                                append=myRef.push().getKey().substring(3,10);
+
+                                Log.e(TAG, "onDataChange:  user name already exist "+append+" "   );
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled( DatabaseError databaseError) {
+
+
+                        }
+                    });
+
+                }else {
+                    Log.e(TAG, "onAuthStateChanged: signOut" );
+
+                }
             }
         };
 

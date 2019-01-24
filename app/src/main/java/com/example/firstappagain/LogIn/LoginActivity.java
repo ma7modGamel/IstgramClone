@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+        Log.e(TAG, "onCreate: login" );
         textViewNewAccount=findViewById(R.id.textViewNewAccount);
         btnLogIn = findViewById(R.id.btnLoginId);
         editTextUserName = findViewById(R.id.idUserNameLogIn);
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void setupWedgetLogin() {
+        Log.e(TAG, "setupWedgetLogin: " );
         textViewPleaseWait.setVisibility(View.GONE);
         progressBarLogin.setVisibility(View.GONE);
 
@@ -66,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
 
+                Log.e(TAG, "onAuthStateChanged: " );
             }
         };
 

@@ -37,8 +37,8 @@ public class HomeActivity extends AppCompatActivity {
         navigationViewExBtn=findViewById(R.id.bottmNavView);
         viewPager=findViewById(R.id.viewpager_id);
         tabLayout=findViewById(R.id.tabs_id);
-
-        Log.d(TAG,"on creat started");
+        FirebaseApp.initializeApp(this);
+        Log.e(TAG,"on creat started");
         setUpFireBase();
         initProfilePic();
         setUpNavigationbar();
@@ -47,9 +47,11 @@ public class HomeActivity extends AppCompatActivity {
      }
 
 
+
+
     private void setUpViewPager() {
         pagerAdapter=new SectionPagerAdapter(getSupportFragmentManager());
-
+        Log.e(TAG, "setUpViewPager: ");
         pagerAdapter.addFragment(new Camera_Fragment());
         pagerAdapter.addFragment(new Home_Fragment());
         pagerAdapter.addFragment(new Message_Fragment());
@@ -64,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setUpNavigationbar() {
-
+        Log.e(TAG, "setUpNavigationbar: " );
         //to remove Animat and text
         BtnNanigationViewHelper.moveAnimatAndText(navigationViewExBtn);
         BtnNanigationViewHelper.enableNavigation(this,navigationViewExBtn);
@@ -85,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseAuth.AuthStateListener listener;
     private void setUpFireBase() {
-FirebaseApp.initializeApp(this);
+        Log.e(TAG, "setUpFireBase: " );
         auth=FirebaseAuth.getInstance();
         listener=new FirebaseAuth.AuthStateListener() {
             @Override
@@ -98,9 +100,9 @@ FirebaseApp.initializeApp(this);
     }
 
     private void checkCurrentUser(FirebaseUser currentUser) {
-
+        Log.e(TAG, "checkCurrentUser: 1" );
         if(currentUser==null){
-
+            Log.e(TAG, "checkCurrentUser:3" );
             Intent intent=new Intent(this,LoginActivity.class);
             startActivity(intent);
         }
